@@ -3,7 +3,10 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const mongoose = require('mongoose');
-require('dotenv').config();
+require('dotenv').config(); 
+
+//  import routes 
+const postRoutes = require('./routes/post')
 
 //app
 const app = express();
@@ -24,12 +27,8 @@ app.use(cors());
 app.use(morgan('dev'));
 app.use(bodyParser.json());
 
-//route
-app.get('*', (req, res) => {
-  res.json({
-    response: 'this is a very big test',
-  });
-});
+// route middleware 
+app.use('/api', postRoutes)
 
 //port
 
