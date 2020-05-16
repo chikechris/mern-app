@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import './App.css';
+import axios from 'axios'
 
 function Form() {
   // post state
@@ -15,14 +15,32 @@ const {title, content, user} = post
 const onChange = (name) => (event) => {
   // console.log('name', name, 'event', event)
   setPost({...post, [name]: event.target.value})
-} 
+}  
+
+// onSubmit event handler 
+const onSubmit = event => {
+  event.preventDefault()
+// console.table({title, content, user}) 
+axios.post(`${process.env.REACT_APP_API}/post`, {title, content, user})
+.then(response=>{
+  console.log(response)
+  // empty post 
+  setPost({...post, title: '', content: '', user: ''}) 
+  // display success alert 
+  alert(`Post titled ${response.data.title} is created`)
+}) 
+.catch(error => {
+  console.log(error.response) 
+  alert(error.response.data.error)
+})
+}
 
   return (
     <div className='container p-5'>
       <h2>Create Post</h2>
       <br /> 
-      {JSON.stringify(post)}
-      <form>
+      {/* {JSON.stringify(post)} */}
+      <form onSubmit={onSubmit}>
         <div className='form-group'>
           <label className='text-muted'>Title</label>
           <input 
