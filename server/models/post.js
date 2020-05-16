@@ -5,8 +5,8 @@ const postSchema = new mongoose.Schema({
   title: {
     type: String,
     trim: true,
-    min: 3,
-    max: 160, 
+    min: 2,
+    max: 140, 
     required: true
   }, 
 
@@ -20,15 +20,14 @@ const postSchema = new mongoose.Schema({
   content: {
     type: {}, 
     required: true,
-    min: 25, 
-    max: 3000000
+    min: 5, 
+    max: 100000
   }, 
 
   user: {
     type: String, 
     default: 'Admin'
   }
-}, {timesstamps: true}); 
+}, {timestamps: true}); 
 
-module.exports = mongoose.model('Post', postSchema
-)
+module.exports = mongoose.model('Post', postSchema)
