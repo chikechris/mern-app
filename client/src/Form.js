@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
-import axios from 'axios'
+import axios from 'axios' 
+import Nav from './Nav'
 
 function Form() {
   // post state
@@ -36,7 +37,9 @@ axios.post(`${process.env.REACT_APP_API}/post`, {title, content, user})
 }
 
   return (
-    <div className='container p-5'>
+    <div className='container pb-5'>
+    <Nav />
+    <br />
       <h2>Create Post</h2>
       <br /> 
       {/* {JSON.stringify(post)} */}
@@ -75,7 +78,7 @@ axios.post(`${process.env.REACT_APP_API}/post`, {title, content, user})
           />
         </div>
         <div>
-          <button className="btn btn-primary">Create</button>
+          <button className="btn btn-primary">Submit</button>
         </div>
       </form>
     </div>
