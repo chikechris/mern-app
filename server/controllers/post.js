@@ -35,4 +35,14 @@ exports.list = (req, res) => {
     if(err) console.log(err) 
     res.json(posts)
   })
+} 
+
+exports.read = (req, res) => { 
+  const {slug} = req.params 
+  // console.log(req.params.slug)
+  Post.findOne({slug})
+    .exec((err, post) => {
+      if (err) console.log(err)
+      res.json(post)
+    })
 }

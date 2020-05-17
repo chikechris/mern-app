@@ -23,7 +23,7 @@ function App() {
     <div className='container pb-5'>
       <Nav />
       <br />
-      <h2>mern App</h2>
+      <h2>News App</h2>
       <br />
       {/* {JSON.stringify(posts)} */}
       {posts.map((post, i) => (
