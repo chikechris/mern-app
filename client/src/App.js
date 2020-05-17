@@ -18,7 +18,25 @@ function App() {
 
   useEffect(() => {
     getPosts();
-  }, []);
+  }, []); 
+
+  const confirmDelete = (slug) =>{
+      let answer = window.confirm('Do you want to delete this post?') 
+      if(answer) {
+        deletePost(slug)
+      }
+  } 
+
+  const deletePost = (slug) => {
+    // console.log('delete', slug, 'post') 
+    axios.delete(`${process.env.REACT_APP_API}/post/${slug}`)
+    .then(resp => {
+      alert(resp.data.message)
+      getPosts()
+    }) 
+    .catch(err => alert('Error deleting post'))
+  }
+
   return (
     <div className='container pb-5'>
       <Nav />
@@ -50,7 +68,7 @@ function App() {
                 <Link to={`/post/update/${post.slug}`} className="btn btn-sm btn-outline-warning" >
                   Update
                 </Link>
-                <button className="btn btn-sm btn-outline-danger ml-1">Delete</button>
+                <button onClick={() => confirmDelete(post.slug)} className="btn btn-sm btn-outline-danger ml-1">Delete</button>
             </div> 
           </div>
           </div>
