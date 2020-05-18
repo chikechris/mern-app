@@ -41,7 +41,7 @@ axios.post(`${process.env.REACT_APP_API}/post`, {title, content, user})
     <Nav />
     <br />
       <h2>Create Post</h2>
-      <br /> 
+      <hr /> 
       {/* {JSON.stringify(post)} */}
       <form onSubmit={onSubmit}>
         <div className='form-group'>
