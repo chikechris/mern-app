@@ -1,15 +1,20 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios' 
-import { Link } from 'react-router-dom' 
-import Nav from './Nav'
+import { Link, withRouter } from 'react-router-dom' 
+import Nav from './Nav' 
+import {auth, getUser} from './helper' 
 
-const Login = () => { 
+const Login = ({history}) => { 
   const [state, setState] = useState({
       name: '', 
       password: ''
   }) 
 
   const {name, password} = state 
+
+  useEffect(() => {
+      getUser() && history.push('/')
+  }, [])
 
   // onChange event handler  
   const onChange = (name) => (event) => {
@@ -21,18 +26,17 @@ const Login = () => {
   const onSubmit = event => {
     event.preventDefault()
     console.table({name, password}) 
-    // axios.post(`${process.env.REACT_APP_API}/post`, { title, content, user })
-    //   .then(response => {
-    //     console.log(response)
-    //     // empty post 
-    //     setState({ ...state, title: '', content: '', user: '' })
-    //     // display success alert 
-    //     alert(`Post titled ${response.data.title} is created`)
-    //   })
-    //   .catch(error => {
-    //     console.log(error.response)
-    //     alert(error.response.data.error)
-    //   })
+    axios.post(`${process.env.REACT_APP_API}/login`, { name, password })
+      .then(response => {
+        console.log(response)
+        // response will contain token and name  
+        auth(response, () => history.push('/form'))
+        // redirect to form page 
+      })
+      .catch(error => {
+        console.log(error.response)
+        alert(error.response.data.error)
+      })
   }
 
   return (
@@ -40,7 +44,7 @@ const Login = () => {
       <Nav /> 
       <br /> 
       <h1>Login</h1> 
-      <br /> 
+      <hr /> 
       <form onSubmit={onSubmit}>
         <div className='form-group'>
           <label className='text-muted'>User Name</label>
@@ -73,4 +77,4 @@ const Login = () => {
   )
 }
 
-export default Login
+export default withRouter(Login)
