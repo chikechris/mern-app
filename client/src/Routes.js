@@ -4,7 +4,8 @@ import App from './App'
 import Form from './Form'; 
 import SinglePost from './SinglePost' 
 import UpdatePost from './UpdatePost' 
-import Login from './Login'
+import Login from './Login' 
+import PrivateRoute from './PrivateRoute'
 
 
 
@@ -13,10 +14,10 @@ const Routes = () => {
     <BrowserRouter>
       <Switch>
         <Route path='/' exact component={App} />
-        <Route path='/form' exact component={Form} /> 
+        <PrivateRoute path='/form' exact component={Form} /> 
         <Route path='/login' exact component={Login} />
         <Route path='/post/:slug' exact component={SinglePost} /> 
-        <Route path='/post/update/:slug' exact component={UpdatePost} />
+        <PrivateRoute path='/post/update/:slug' exact component={UpdatePost} />
       </Switch>
     </BrowserRouter>
   );
