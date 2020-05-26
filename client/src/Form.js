@@ -4,7 +4,7 @@ import Nav from './Nav';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.core.css';
 import 'react-quill/dist/quill.snow.css';
-import {getUser} from './helper'
+import {getUser, getToken} from './helper'
 
 function Form() {
   // post state
@@ -34,11 +34,16 @@ function Form() {
     event.preventDefault();
     // console.table({title, content, user})
     axios
-      .post(`${process.env.REACT_APP_API}/post`, { title, content, user })
+      .post(`${process.env.REACT_APP_API}/post`, { title, content, user }, {
+        headers: {
+          authorization: `Bearer ${getToken()}`
+        }
+      })
       .then((response) => {
         console.log(response);
         // empty post
-        setPost({ ...post, title: '', content: '', user: '' });
+        setPost({ ...post, title: '', user: '' }); 
+        setContent('')
         // display success alert
         alert(`Post titled ${response.data.title} is created`);
       })

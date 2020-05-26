@@ -12,4 +12,9 @@ exports.login = (req, res) => {
       error: 'Wrong Password'
     })
   }
-}
+} 
+
+exports.requireSignin = expressJwt({
+  // req.user.name
+  secret: process.env.JWT_SECRET,
+});

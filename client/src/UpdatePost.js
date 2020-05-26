@@ -1,21 +1,36 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import Nav from './Nav'
+import renderHTML from 'react-render-html';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.core.css';
+import 'react-quill/dist/quill.snow.css'; 
+import { getToken } from './helper'
+
 
 const UpdatePost = (props) => {
   const [state, setState] = useState({
     title: "", 
-    content: "",
     slug: "", 
     user: ''
   }) 
 
-  const {title, content, slug, user } = state
+  const {title, slug, user } = state 
+
+  const [content, setContent] = useState('');
+
+  // rich text editor handle change
+  const handleContent = (event) => {
+    console.log(event);
+    setContent(event);
+  };
+
   useEffect(() => {
     axios.get(`${process.env.REACT_APP_API}/post/${props.match.params.slug}`)
       .then(resp => { 
         const {title, content, slug, user} = resp.data
-        setState({...state, title, content, slug, user})
+        setState({...state, title, slug, user})
+        setContent(content)
       })
       .catch(error => alert('Error displaying post'))
   }, []) 
@@ -32,7 +47,13 @@ const UpdatePost = (props) => {
   const onSubmit = event => {
     event.preventDefault()
     // console.table({title, content, user}) 
-    axios.put(`${process.env.REACT_APP_API}/post/${slug}`, { title, content, user })
+    axios.put(`${process.env.REACT_APP_API}/post/${slug}`, { title, content, user }, {
+      headers: {
+        authorization: `Bearer ${getToken()}`
+      }
+    }
+    
+    )
       .then(response => {
         console.log(response) 
         const {title, content, slug, user} = response.data
@@ -47,7 +68,7 @@ const UpdatePost = (props) => {
       })
   } 
 
-const showUpdateForm= () => (
+const showUpdateForm = () => (
   <form onSubmit={onSubmit}>
     <div className='form-group'>
       <label className='text-muted'>Title</label>
@@ -62,13 +83,12 @@ const showUpdateForm= () => (
     </div>
     <div className='form-group'>
       <label className='text-muted'>Content</label>
-      <textarea
+      <ReactQuill
         value={content}
-        onChange={onChange('content')}
-        type='text'
-        className='form-control'
+        onChange={handleContent}
+        className='form-group'
         placeholder='Input Content'
-        required
+        style={{ border: '1px solid #555' }}
       />
     </div>
     <div className='form-group'>
@@ -83,10 +103,10 @@ const showUpdateForm= () => (
       />
     </div>
     <div>
-      <button className="btn btn-primary">Update</button>
+      <button className='btn btn-primary'>Update</button>
     </div>
   </form>
-)
+);
   
 
 
