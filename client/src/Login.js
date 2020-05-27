@@ -40,12 +40,14 @@ const Login = ({history}) => {
   }
 
   return (
-    <div>
+    <div className='container pb-5'>
       <Nav /> 
       <br /> 
       <h1>Login</h1> 
-      <hr /> 
+      <hr/> 
       <form onSubmit={onSubmit}>
+      <div className='row'>
+        <div className='col-md-6'>
         <div className='form-group'>
           <label className='text-muted'>User Name</label>
           <input
@@ -70,6 +72,8 @@ const Login = ({history}) => {
         </div>
         <div>
           <button className="btn btn-primary">Submit</button>
+        </div>
+          </div>
         </div>
       </form>
 

@@ -4,7 +4,7 @@ import {getUser, logout}from './helper'
 
 const Nav = ({history}) => {
   return (
-    <nav>
+    <nav className=''>
       <ul className='nav nav-tabs'>
         <li className='nav-item pr-3 pt 3 pb-3'>
           <Link to='/'>Home</Link>
